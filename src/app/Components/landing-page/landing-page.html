@@ -1,0 +1,26 @@
+<!-- Roadmap Component (Shows when showRoadmap is true) -->
+<app-roadmap *ngIf="showRoadmap"></app-roadmap>
+
+<!-- BIG "START JOURNEY" BUTTON - CENTERED ON SCREEN (Shows after conversation ends) -->
+<div *ngIf="conversationEnded"
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+  style="background: rgba(0, 0, 0, 0.7); z-index: 2000;">
+  <button (click)="startJourney()" class="btn btn-primary btn-lg px-5 py-3 shadow-lg"
+    style="font-size: 1.5rem; font-weight: bold; border-radius: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; animation: fadeInUp 0.5s ease;">
+    🚀 Starting Your Journey
+  </button>
+</div>
+
+<!-- Chat Widget Container (bottom-right) -->
+<div class="position-fixed bottom-0 end-0 p-3">
+
+  <!-- Floating Action Button (Only visible when modal is CLOSED and conversation hasn't ended) -->
+  <button *ngIf="!showMascot && !conversationEnded" (click)="openMascot()" class="fab-button" title="Talk to AI Buddy">
+    🎤
+  </button>
+
+  <!-- Audio Modal Component (Only rendered when showMascot is TRUE) -->
+  <app-audio-modal *ngIf="showMascot" (close)="closeMascot()">
+  </app-audio-modal>
+
+</div>
