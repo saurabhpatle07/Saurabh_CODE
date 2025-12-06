@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.collapsed]="isCollapsed">
+        <div class="sidebar-header">
+            @if (!isCollapsed) {
+            <div class="app-brand">Learning App</div>
+            }
+            <button class="sidebar-toggle" (click)="toggleSidebar()">
+                ☰
+            </button>
+        </div>
+
+        <ul class="sidebar-nav list-unstyled">
+            @for (item of navItems; track item.label) {
+            <li class="nav-item">
+            <li class="nav-item">
+                <a class="nav-link" (click)="navigateTo(item.route)" style="cursor: pointer;"
+                    [class.active]="router.url === item.route">
+                    <span class="nav-icon">{{ item.icon }}</span>
+                    @if (!isCollapsed) {
+                    <span class="nav-text">{{ item.label }}</span>
+                    }
+                </a>
+            </li>
+            }
+        </ul>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="user-profile">
+                <div class="credits-badge me-3 d-none d-sm-flex">
+                    <span class="credits-icon">💎</span>
+                    <span class="credits-count">1,250 Credits</span>
+                </div>
+                <span class="d-none d-md-block fw-bold">John Doe</span>
+                <div class="user-avatar">JD</div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <router-outlet></router-outlet>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            &copy; 2025 Learning App. All rights reserved.
+        </footer>
+    </div>
+</div>

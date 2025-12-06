@@ -1,0 +1,76 @@
+<div class="chat-container">
+    <header class="mb-4">
+        <h2 class="fw-bold display-5">Chat with Industry Experts 💬</h2>
+        <p class="text-muted lead">Connect with mentors assigned to your curriculum.</p>
+    </header>
+
+    <div class="row g-4 h-100 chat-layout">
+        <!-- Mentor List -->
+        <div class="col-md-4 col-lg-3">
+            <div class="card glass-card h-100 border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0 pt-3 px-3">
+                    <h5 class="fw-bold mb-0">Mentors</h5>
+                </div>
+                <div class="list-group list-group-flush mt-2 p-2">
+                    @for (mentor of mentors; track mentor.id) {
+                    <button
+                        class="list-group-item list-group-item-action border-0 rounded-3 mb-2 d-flex align-items-center gap-3 p-3 mentor-item"
+                        [class.active-mentor]="selectedMentor.id === mentor.id" (click)="selectMentor(mentor)">
+                        <div class="position-relative">
+                            <span class="avatar fs-4">{{ mentor.avatar }}</span>
+                            <span class="status-indicator" [class.online]="mentor.status === 'online'"></span>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h6 class="mb-0 fw-bold text-truncate">{{ mentor.name }}</h6>
+                            <small class="text-muted text-truncate d-block" style="font-size: 0.75rem;">{{ mentor.role
+                                }}</small>
+                        </div>
+                    </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="col-md-8 col-lg-9">
+            <div class="card glass-card h-100 border-0 shadow-sm d-flex flex-column">
+                <!-- Chat Header -->
+                <div class="card-header bg-white bg-opacity-50 border-bottom p-3 d-flex align-items-center gap-3">
+                    <span class="avatar fs-3">{{ selectedMentor.avatar }}</span>
+                    <div>
+                        <h5 class="mb-0 fw-bold">{{ selectedMentor.name }}</h5>
+                        <small class="text-muted">{{ selectedMentor.role }} • <span class="text-uppercase"
+                                [class.text-success]="selectedMentor.status === 'online'">{{ selectedMentor.status
+                                }}</span></small>
+                    </div>
+                </div>
+
+                <!-- Messages Area -->
+                <div class="card-body p-4 overflow-auto flex-grow-1 bg-light bg-opacity-25" style="max-height: 500px;">
+                    @for (msg of messages; track msg) {
+                    <div class="d-flex mb-3" [class.justify-content-end]="msg.sender === 'user'">
+                        <div class="message-bubble shadow-sm" [class.user-msg]="msg.sender === 'user'"
+                            [class.mentor-msg]="msg.sender === 'mentor'">
+                            <p class="mb-1">{{ msg.text }}</p>
+                            <small class="opacity-75" style="font-size: 0.7rem;">{{ msg.time }}</small>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Input Area -->
+                <div class="card-footer bg-white border-top p-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-0 bg-light rounded-pill px-4"
+                            placeholder="Type your message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+                        <button
+                            class="btn btn-primary rounded-circle ms-2 d-flex align-items-center justify-content-center"
+                            style="width: 48px; height: 48px;" (click)="sendMessage()">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

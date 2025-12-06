@@ -1,0 +1,91 @@
+<div class="material-container">
+    <header class="mb-5">
+        <h2 class="fw-bold display-5">Adaptive Course Material 📚</h2>
+        <p class="text-muted lead">Based on your current journey: <strong class="text-primary">{{ currentCourse
+                }}</strong></p>
+    </header>
+
+    <div class="row g-4">
+        <!-- 1. How to Study -->
+        <div class="col-lg-4">
+            <div class="card glass-card h-100 border-0 shadow-sm category-card strategy">
+                <div class="card-header-icon bg-info-gradient">
+                    🧠
+                </div>
+                <div class="card-body p-4">
+                    <h3 class="h4 fw-bold mb-4">How to Study</h3>
+
+                    <div class="strategy-list">
+                        @for (item of generatedContent.studyStrategy; track item.phase) {
+                        <div class="strategy-item mb-4">
+                            <h6 class="fw-bold text-info">{{ item.phase }}</h6>
+                            <p class="mb-2">{{ item.tip }}</p>
+                            <small class="text-muted d-block"><i class="bi bi-arrow-right-circle"></i> {{ item.action
+                                }}</small>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Where to Refer -->
+        <div class="col-lg-4">
+            <div class="card glass-card h-100 border-0 shadow-sm category-card references">
+                <div class="card-header-icon bg-purple-gradient">
+                    🔍
+                </div>
+                <div class="card-body p-4">
+                    <h3 class="h4 fw-bold mb-4">Where to Refer</h3>
+
+                    <div class="list-group list-group-flush bg-transparent">
+                        @for (ref of generatedContent.references; track ref.title) {
+                        <a [href]="ref.url" target="_blank"
+                            class="list-group-item list-group-item-action bg-transparent border-0 px-0 py-3">
+                            <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+                                <h6 class="mb-0 fw-bold">{{ ref.title }}</h6>
+                                <span class="badge bg-light text-dark border">{{ ref.type }}</span>
+                            </div>
+                            <p class="mb-1 small text-muted">{{ ref.desc }}</p>
+                        </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Overcoming Difficulties -->
+        <div class="col-lg-4">
+            <div class="card glass-card h-100 border-0 shadow-sm category-card blockers">
+                <div class="card-header-icon bg-danger-gradient">
+                    🚧
+                </div>
+                <div class="card-body p-4">
+                    <h3 class="h4 fw-bold mb-4">Overcoming Difficulties</h3>
+
+                    <div class="accordion accordion-flush" id="blockerAccordion">
+                        @for (blocker of generatedContent.difficultyBlockers; track blocker.topic; let i = $index) {
+                        <div class="accordion-item bg-transparent border-bottom">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent shadow-none fw-bold"
+                                    type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i">
+                                    {{ blocker.topic }}
+                                </button>
+                            </h2>
+                            <div [id]="'collapse'+i" class="accordion-collapse collapse"
+                                data-bs-parent="#blockerAccordion">
+                                <div class="accordion-body small">
+                                    <p class="mb-2"><strong class="text-danger">Symptom:</strong> {{ blocker.symptom }}
+                                    </p>
+                                    <p class="mb-0"><strong class="text-success">Solution:</strong> {{ blocker.solution
+                                        }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

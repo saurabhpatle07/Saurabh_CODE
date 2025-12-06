@@ -1,0 +1,76 @@
+/* iOS Style Cards */
+.ios-card-btn {
+    aspect-ratio: 1;
+    border-radius: 22px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    /* Ensure clickable */
+}
+
+.ios-card-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.ios-card-btn:active {
+    transform: scale(0.97);
+}
+
+.icon-wrapper {
+    font-size: 4rem;
+    background: rgba(255, 255, 255, 0.2);
+    width: 90px;
+    height: 90px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.card-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+}
+
+/* Gradients */
+.bg-primary-gradient {
+    background: linear-gradient(135deg, #007aff, #00c6ff);
+}
+
+.bg-purple-gradient {
+    background: linear-gradient(135deg, #5856d6, #af52de);
+}
+
+.bg-success-gradient {
+    background: linear-gradient(135deg, #34c759, #30d158);
+}
+
+.bg-orange-gradient {
+    background: linear-gradient(135deg, #ff9500, #ffcc00);
+}
+
+.bg-red-gradient {
+    background: linear-gradient(135deg, #ff3b30, #ff9f0a);
+}
+
+.bg-blue-red-gradient {
+    background: linear-gradient(135deg, #0d6efd, #dc3545);
+}
+
+.bg-cyan-gradient {
+    background: linear-gradient(135deg, #0dcaf0, #0d6efd);
+}

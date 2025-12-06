@@ -1,0 +1,47 @@
+<!-- Mascot -->
+@if (!isModalOpen) {
+<div class="mascot-container" [style.transform]="'translate3d(' + position.x + 'px, ' + position.y + 'px, 0)'"
+    (mousedown)="startDrag($event)" (touchstart)="startDrag($event)" (click)="openModal()">
+    <div class="mascot">
+        🤖
+    </div>
+</div>
+}
+
+<!-- Modal -->
+@if (isModalOpen) {
+<div class="modal-backdrop-custom">
+    <div class="modal-content-custom text-center">
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+        <h2 class="mb-3">Voice Chat Bot</h2>
+        <p>{{ greetingMessage }}</p>
+
+        <div class="voice-controls">
+            <button class="mic-btn" [class.recording]="isRecording" [class.playing]="isPlaying"
+                (click)="toggleRecording()">
+                @if (isRecording) {
+                <span>⏹️</span>
+                } @else if (isPlaying) {
+                <span>🔊</span>
+                } @else {
+                <span>🎤</span>
+                }
+            </button>
+        </div>
+
+        <div class="mt-3">
+            @if (isRecording) {
+            <small class="text-danger">Recording...</small>
+            } @else if (isPlaying) {
+            <small class="text-success">Playing response...</small>
+            } @else {
+            <small class="text-muted">Push to Talk</small>
+            }
+        </div>
+
+        <div class="text-end mt-4">
+            <button class="btn btn-secondary btn-sm" (click)="closeModal()">Close</button>
+        </div>
+    </div>
+</div>
+}

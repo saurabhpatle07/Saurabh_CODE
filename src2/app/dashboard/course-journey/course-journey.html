@@ -1,0 +1,161 @@
+<div class="journey-container">
+    <div class="journey-header mb-5">
+        <h2 class="fw-bold">Your Learning Path</h2>
+        <p class="text-muted">Follow the milestones to master Angular.</p>
+    </div>
+
+    <div class="timeline">
+        @for (course of courses; track course.id; let last = $last) {
+        <div class="timeline-item">
+            <div class="timeline-marker" [class.completed]="course.completed" [class.active]="course.active">
+                @if (course.completed) {
+                ✓
+                } @else if (course.active) {
+                ▶
+                } @else {
+                {{ course.id }}
+                }
+            </div>
+
+            <div class="timeline-content card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="card-title mb-0 fw-bold">{{ course.title }}</h5>
+                        <span class="badge rounded-pill" [class.bg-success]="course.completed"
+                            [class.bg-primary]="course.active"
+                            [class.bg-secondary]="!course.completed && !course.active">
+                            {{ course.status }}
+                        </span>
+                    </div>
+                    <p class="card-text text-muted">{{ course.description }}</p>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill" (click)="openModal(course)">View
+                        Details</button>
+                </div>
+            </div>
+
+            @if (!last) {
+            <div class="timeline-connector">
+                <div class="arrow-down"></div>
+            </div>
+            }
+        </div>
+        }
+    </div>
+</div>
+
+<!-- Course Details Modal -->
+@if (isModalOpen && selectedCourse) {
+<div class="modal-backdrop-custom" (click)="closeModal()">
+    <div class="modal-content-custom course-modal" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+
+        <div class="modal-header-custom border-bottom mb-3 pb-2">
+            <h3 class="fw-bold mb-0">{{ selectedCourse.title }}</h3>
+            <span class="text-muted small">Course Details</span>
+        </div>
+
+        <div class="modal-body-grid">
+            <!-- Left Side: Navigation -->
+            <div class="course-nav">
+                <h5 class="fw-bold mb-3">Syllabus</h5>
+                <div class="accordion-custom">
+                    @for (topic of topics; track topic.title) {
+                    <div class="topic-item mb-2">
+                        <div class="topic-header p-2 rounded d-flex justify-content-between align-items-center"
+                            [class.active]="topic.active" (click)="toggleTopic(topic)">
+                            <span class="fw-bold">{{ topic.title }}</span>
+                            <span>{{ topic.active ? '−' : '+' }}</span>
+                        </div>
+                        @if (topic.active) {
+                        <div class="subtopic-list ps-3 py-2">
+                            @for (sub of topic.subtopics; track sub.title) {
+                            <div class="subtopic-item py-1" [class.active-subtopic]="selectedVideoId === sub.videoId"
+                                (click)="playVideo(sub.videoId); $event.stopPropagation()">
+
+                                @if (playedVideos.has(sub.videoId)) {
+                                <span class="text-success me-2 fw-bold">✓</span>
+                                } @else {
+                                <span class="text-muted me-2">•</span>
+                                }
+
+                                {{ sub.title }}
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Right Side: Content -->
+            <div class="course-content">
+                <!-- Video Player -->
+                <div class="video-wrapper mb-4 rounded overflow-hidden shadow-sm">
+                    @if (videoUrl) {
+                    <iframe [src]="videoUrl" width="100%" height="315" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                    </iframe>
+                    }
+                </div>
+
+                <!-- Notes Section -->
+                <div class="notes-section mb-4">
+                    <h5 class="fw-bold mb-2">My Notes</h5>
+                    <textarea class="form-control" rows="5" placeholder="Write your key takeaways here..."></textarea>
+                </div>
+
+            </div>
+
+            <!-- Notes Section -->
+        </div>
+    </div>
+</div>
+}
+
+
+
+<!-- HackerRank Practice Modal -->
+@if (isPracticeOpen) {
+<div class="modal-backdrop-custom practice-backdrop" (click)="closePracticeModal()">
+    <div class="modal-content-custom practice-modal text-center" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closePracticeModal()">&times;</button>
+
+        <div class="mb-4">
+            <span style="font-size: 4rem;">👨‍💻</span>
+        </div>
+
+        <h2 class="fw-bold mb-3">Wanna Practice?</h2>
+        <p class="text-muted mb-4">You've mastered this topic! Put your skills to the test with real coding challenges.
+        </p>
+
+        <div class="d-grid mb-4">
+            <button class="btn btn-success btn-lg rounded-pill shadow-sm" (click)="goToHackerRank()">
+                Solve Challenges on HackerRank 🚀
+            </button>
+        </div>
+
+        <div class="feedback-section border-top pt-4 w-100">
+            <p class="text-muted small mb-3">How was this session?</p>
+            @if (!feedbackRating) {
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-outline-light emoji-btn" (click)="submitFeedback('best')"
+                    title="Best">🤩</button>
+                <button class="btn btn-outline-light emoji-btn" (click)="submitFeedback('good')"
+                    title="Good">🙂</button>
+                <button class="btn btn-outline-light emoji-btn" (click)="submitFeedback('average')"
+                    title="Average">😐</button>
+                <button class="btn btn-outline-light emoji-btn" (click)="submitFeedback('neutral')"
+                    title="Neutral">😶</button>
+            </div>
+            } @else {
+            <div class="text-success fw-bold animate-fade-in">
+                Thanks for your feedback! {{ feedbackRating === 'best' ? '🤩' : feedbackRating === 'good' ? '🙂' :
+                feedbackRating === 'average' ? '😐' : '😶' }}
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}

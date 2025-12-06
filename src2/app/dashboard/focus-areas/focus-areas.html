@@ -1,0 +1,109 @@
+<div class="focus-container">
+    <header class="mb-5">
+        <h2 class="fw-bold display-5">Weak & Focus Areas 🎯</h2>
+        <p class="text-muted lead">Your personalized performance analysis and improvement plan.</p>
+    </header>
+
+    <div class="row g-4 mb-4">
+        <!-- Overview Cards -->
+        <div class="col-md-4">
+            <div class="card glass-card h-100 border-0 p-3 text-center">
+                <h6 class="text-muted text-uppercase small fw-bold">Overall Score</h6>
+                <div class="display-3 fw-bold text-primary">{{ performanceSummary.overallScore }}%</div>
+                <small class="text-muted">Keep pushing! 🚀</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card glass-card h-100 border-0 p-3 text-center">
+                <h6 class="text-muted text-uppercase small fw-bold">Quizzes Taken</h6>
+                <div class="display-3 fw-bold text-info">{{ performanceSummary.quizzesTaken }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card glass-card h-100 border-0 p-3 text-center">
+                <h6 class="text-muted text-uppercase small fw-bold">Hands-on Labs</h6>
+                <div class="display-3 fw-bold text-success">{{ performanceSummary.handsOnCompleted }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Topic Breakdown -->
+        <div class="col-lg-6">
+            <div class="card glass-card h-100 border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0 pt-4 px-4">
+                    <h4 class="fw-bold">Topic Analysis 📊</h4>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    @for (item of topicAnalysis; track item.topic) {
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold">{{ item.topic }}</span>
+                            <span class="badge" [class]="'bg-' + item.color">{{ item.status }} ({{ item.score
+                                }}%)</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar" [class]="'bg-' + item.color" role="progressbar"
+                                [style.width.%]="item.score"></div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Challenges -->
+        <div class="col-lg-6">
+            <div class="card glass-card h-100 border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0 pt-4 px-4">
+                    <h4 class="fw-bold">Recent Challenges ⚠️</h4>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <div class="list-group list-group-flush">
+                        @for (challenge of recentChallenges; track challenge.id) {
+                        <div class="list-group-item bg-transparent border-0 ps-0 mb-3">
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <h6 class="mb-1 fw-bold">{{ challenge.title }}</h6>
+                                <span class="badge bg-danger-subtle text-danger border border-danger">{{ challenge.score
+                                    }}</span>
+                            </div>
+                            <p class="mb-1 small text-muted">{{ challenge.issue }}</p>
+                            <span class="badge bg-light text-dark border small">{{ challenge.type }}</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mitigation Plan -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card glass-card border-0 shadow-sm p-4 solution-card">
+                <h3 class="fw-bold mb-4 text-white"><i class="bi bi-lightbulb-fill"></i> Mitigation Plan & Solutions
+                </h3>
+
+                <div class="row g-4">
+                    @for (plan of mitigationPlan; track plan.topic) {
+                    <div class="col-md-6">
+                        <div class="bg-white rounded-3 p-3 h-100 shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0 text-dark">{{ plan.topic }}</h5>
+                                <span class="badge bg-warning text-dark">Priority: {{ plan.priority }}</span>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                @for (action of plan.actionItems; track action) {
+                                <li class="list-group-item border-0 px-0 py-1">
+                                    <i class="bi bi-check2-square text-primary me-2"></i> {{ action }}
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
